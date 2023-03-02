@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
-import { User } from '../_modules/user';
+import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 
 @Component({
@@ -11,32 +13,25 @@ import { AccountService } from '../_services/account.service';
 export class NavComponent implements OnInit {
   model: any = {}; // initialize as an empty object 
 
-  constructor(public accountService:AccountService) //when is public the service can be used in the HTML template too
+  constructor(public accountService:AccountService
+            , private router:Router
+            , private toastr:ToastrService) //when is public the service can be used in the HTML template too
   { }
 
-  ngOnInit(): void {
-    //this.currentUser$ = this.accountService.currentUser$
+  ngOnInit(): void {    
   }
-
-  // getCurrentUser(){
-  //   this.accountService.currentUser$.subscribe({
-  //     next:user => this.loggedIn = !!user, // double exclamation mark tranform the user to a boolean
-  //     error: error => console.log(error)
-  //   })
-  // }
 
   login()
   {
     this.accountService.login(this.model).subscribe({
-      next:response => {
-        console.log(response);        
-      },
-      error: error => console.error()      
+      next:() =>  this.router.navigateByUrl('/members'),
+      error: error => this.toastr.error(error.error)    
     })
   }
 
   logout(){
     this.accountService.logout();   
+    this.router.navigateByUrl('/')
   }
 
 }
