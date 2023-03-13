@@ -17,7 +17,8 @@ namespace API.Extensions
 
             services.AddCors();
             services.AddScoped<ITokenService, TokenService>(); //Interface and its implementation class (where the actual method resides)
-
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             return services;
         }
     }
