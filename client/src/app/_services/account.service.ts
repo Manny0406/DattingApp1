@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-  baseUrl = 'https://localhost:5001/api/';
+  // baseUrl = 'https://localhost:5001/api/'; // this was moved to environment folder
+  baseUrl = environment.apiUrl;
   private currentUserSource = new BehaviorSubject<User | null>(null); // <User | null> means that it can be User or null
   currentUser$ = this.currentUserSource.asObservable(); // the dollar sign $ is a convention to specify that the variable is an observable
 
